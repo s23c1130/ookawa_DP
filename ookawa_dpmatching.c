@@ -105,37 +105,24 @@ int main(void){
             }
         }
 
-        // FILE *aaaaa;
-        // aaaaa = fopen("test.txt", "w");
+        FILE *save_csv;
+        save_csv = fopen("save.csv", "w");
 
-        // for(int input_cnt = 0; input_cnt < input_frame; input_cnt++){
-        //     for(int dataset_cnt = 0; dataset_cnt < dataset_frame[i];dataset_cnt++){
-        //         printf("%03.2lf ", dp[dataset_cnt][input_cnt]);
-        //         fprintf(aaaaa, "%4.2lf ", dp[dataset_cnt][input_cnt]);
-        //     }
-        //     printf("\n");
-        //     fprintf(aaaaa,"\n");
-        // }
-        // printf("\n\n\n\n");
-        // fprintf(aaaaa, "\n\n\n\n");
+        for(int input_cnt = 0; input_cnt < input_frame; input_cnt++){
+            for(int dataset_cnt = 0; dataset_cnt < dataset_frame[i];dataset_cnt++){
+                fprintf(save_csv, "%3.2lf, ", dp[dataset_cnt][input_cnt]);
+            }
+            fprintf(save_csv,"\n");
+        }
+        
+        fclose(save_csv);
+
         if(min_data > dp[dataset_frame[i] - 1][input_frame - 1]){
             min_data = dp[dataset_frame[i] - 1][input_frame - 1];
             printf("%d %lf\n",i + 1, min_data);
         }
 
     }
-
-    // FILE *aaaaa;
-    // aaaaa = fopen("test.txt", "w");
-
-    // for(int input_cnt = 0; input_cnt < input_frame; input_cnt++){
-    //     for(int dataset_cnt = 0; dataset_cnt < dataset_frame[0];dataset_cnt++){
-    //         fprintf(aaaaa, "%lf ", dp[dataset_cnt][input_cnt]);
-    //     }
-    //     fprintf(aaaaa, "\n");
-    // }
-
-    //
 
 }
 
