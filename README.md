@@ -19,14 +19,14 @@ PPM形式で出力されます。GIMP等の対応ソフトで開いてくださ�
 ## ファイル配置
 基本的には、同じディレクトリに city_mcepdataを入れればOKです。
 
-ookawa_DP
-├ city_mcepdata ディレクトリ（自分でご用意ください）
-├ ookawa_dpmatching_probability.c
-├ ookawa_dpmatching_probability (実行ファイル)
-├ ookawa_dpmatching.c
-├ ookawa_dpmatching (実行ファイル)
-├ pic1.ppm (局所距離が最少時の画像ファイル)
-└ save.csv (局所距離が最少時のDPマッチングデータ)
+ookawa_DP<BR>
+├ city_mcepdata ディレクトリ（自分でご用意ください）<BR>
+├ ookawa_dpmatching_probability.c<BR>
+├ ookawa_dpmatching_probability (実行ファイル)<BR>
+├ ookawa_dpmatching.c<BR>
+├ ookawa_dpmatching (実行ファイル)<BR>
+├ pic1.ppm (局所距離が最少時の画像ファイル)<BR>
+└ save.csv (局所距離が最少時のDPマッチングデータ)<BR>
 
 ## ソースファイルの変更場所
 
