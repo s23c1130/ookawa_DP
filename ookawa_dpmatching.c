@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <time.h>
 
 #define INPUT_FILE "city_mcepdata/city011/city011_073.txt"
 #define DATASET_FILE "city_mcepdata/city012/city012_"
@@ -22,8 +23,15 @@ double input_data[DATASET_FRAME_MAX][DATASET_DIMENSION_MAX];
 int dataset_frame[DATASET_NUM_MAX];
 int input_frame;
 
+//経過時間測定関係
+clock_t time_start;
+clock_t time_end;
+
 int main(void)
 {
+    //処理開始
+    time_start = clock();
+
     unsigned char dumy[1000];
     unsigned char file_name[1000];
     // テンプレートのファイルを開く
@@ -291,6 +299,10 @@ int main(void)
 
     fclose(out_pic);
     fclose(input_fp);
+
+    //処理終了
+    time_end = clock();
+    printf("処理時間:%f [s]\n", ((double)time_end - (double)time_start) / CLOCKS_PER_SEC);
 }
 
 // 局所距離を求める関数

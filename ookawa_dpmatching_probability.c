@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <time.h>
 
 #define INPUT_FILE "city_mcepdata/city011/city011_"
 #define DATASET_FILE "city_mcepdata/city021/city021_"
@@ -15,6 +16,10 @@
 #define TATE_YOKO_COST 1
 #define NANAME_COST 2
 
+//経過時間測定関係
+clock_t time_start;
+clock_t time_end;
+
 // 局所距離を求める関数
 double d_calc(int dataset_num, int input_num, int x, int y);
 
@@ -25,6 +30,9 @@ int input_frame[DATASET_NUM_MAX];
 
 int main(void)
 {
+    //処理開始
+    time_start = clock();
+
     unsigned char dumy[1000];
     unsigned char file_name[1000];
     // テンプレートのファイルを開く
@@ -165,6 +173,11 @@ int main(void)
 
     printf("\n\n総数：%d 正解数：%d 不正解数:%d\n", correct_cnt + incorrect_cnt, correct_cnt, incorrect_cnt);
     printf("正解率：%lf %%\n", (float)correct_cnt / ((float)correct_cnt + (float)incorrect_cnt) * 100);
+
+    //処理終了
+    time_end = clock();
+    printf("処理時間:%f [s]\n", ((double)time_end - (double)time_start) / CLOCKS_PER_SEC);
+
 }
 
 // 局所距離を求める関数
