@@ -1,3 +1,6 @@
+//  SPDX-FileCopyrightText: 2025 Toki Makabe <s23c1130sm@s.chibakoudai.jp>
+//  SPDX-License-Identifier:BSD-3-Clause
+
 #include <stdio.h>
 #include <math.h>
 
