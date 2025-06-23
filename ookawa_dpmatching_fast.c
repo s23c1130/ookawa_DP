@@ -113,9 +113,13 @@ int main(void)
         {
 
             double dp[dataset_frame[i]][input_frame[input_data_cnt]];
+            dp[dataset_frame[i] - 1][input_frame[input_data_cnt] - 1] = __DBL_MAX__;
 
             for (int input_cnt = 0; input_cnt < input_frame[input_data_cnt]; input_cnt++)
             {
+                //列ごとの最小を保存する変数
+                double ds_min = __DBL_MAX__;
+
                 for (int dataset_cnt = 0; dataset_cnt < dataset_frame[i]; dataset_cnt++)
                 {
                     double min_cost = __DBL_MAX__;
@@ -130,7 +134,7 @@ int main(void)
                         double tmp = dp[dataset_cnt][input_cnt - 1] + d_calc(i, input_data_cnt, input_cnt, dataset_cnt) * TATE_YOKO_COST;
                         if (min_cost >= tmp)
                         {
-                            min_cost = tmp;
+                            min_cost = tmp; 
                         }
                     }
                     if (dataset_cnt >= 1)
@@ -149,7 +153,17 @@ int main(void)
                             min_cost = tmp;
                         }
                     }
+
                     dp[dataset_cnt][input_cnt] = min_cost;
+
+                    if(ds_min > min_cost){
+                        ds_min = min_cost;
+                    }
+                }
+
+                //もしもすでにDS最小よりも値が大きければここで終了
+                if(ds_min > min_data){
+                    break;
                 }
             }
 
