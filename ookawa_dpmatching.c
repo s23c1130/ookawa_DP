@@ -233,7 +233,7 @@ int main(void)
         {
             for (int j = 0; j < input_frame; j++)
             {
-                if (i_1 == dataset_frame[min_asc] - 1 && j == input_frame - 1)
+                if (i_1 == dataset_frame[i] - 1 && j == input_frame - 1)
                 {
                     fprintf(out_pic, "1 ");
                 }
