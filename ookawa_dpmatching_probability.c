@@ -14,7 +14,7 @@
 #define DATASET_DIMENSION_MAX 15
 
 #define TATE_YOKO_COST 1
-#define NANAME_COST 1.414213
+#define NANAME_COST 2
 
 //経過時間測定関係
 clock_t time_start;
@@ -127,7 +127,7 @@ int main(void)
 
                     if (input_cnt >= 1)
                     {
-                        double tmp = dp[dataset_cnt][input_cnt - 1] + d_calc(i, input_data_cnt, input_cnt, dataset_cnt) * TATE_YOKO_COST;
+                        double tmp = dp[dataset_cnt][input_cnt - 1] * TATE_YOKO_COST + d_calc(i, input_data_cnt, input_cnt, dataset_cnt);
                         if (min_cost >= tmp)
                         {
                             min_cost = tmp;
@@ -135,7 +135,7 @@ int main(void)
                     }
                     if (dataset_cnt >= 1)
                     {
-                        double tmp = dp[dataset_cnt - 1][input_cnt] + d_calc(i, input_data_cnt, input_cnt, dataset_cnt) * TATE_YOKO_COST;
+                        double tmp = dp[dataset_cnt - 1][input_cnt] * TATE_YOKO_COST + d_calc(i, input_data_cnt, input_cnt, dataset_cnt);
                         if (min_cost >= tmp)
                         {
                             min_cost = tmp;
@@ -143,7 +143,7 @@ int main(void)
                     }
                     if (input_cnt >= 1 && dataset_cnt >= 1)
                     {
-                        double tmp = dp[dataset_cnt - 1][input_cnt - 1] + d_calc(i, input_data_cnt, input_cnt, dataset_cnt) * NANAME_COST;
+                        double tmp = dp[dataset_cnt - 1][input_cnt - 1] * NANAME_COST + d_calc(i, input_data_cnt, input_cnt, dataset_cnt);
                         if (min_cost >= tmp)
                         {
                             min_cost = tmp;
