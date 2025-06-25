@@ -6,8 +6,8 @@
 #include <math.h>
 #include <time.h>
 
-#define INPUT_FILE "city_mcepdata/city011/city011_"
-#define DATASET_FILE "city_mcepdata/city012/city012_"
+#define INPUT_FILE "city_mcepdata/city022/city022_"
+#define DATASET_FILE "city_mcepdata/city021/city021_"
 #define PICTURE_PATH "pic1.ppm"
 #define DATASET_NUM_MAX 100
 #define DATASET_FRAME_MAX 200

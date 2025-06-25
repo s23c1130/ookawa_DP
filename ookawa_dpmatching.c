@@ -7,7 +7,7 @@
 
 #define INPUT_FILE "city_mcepdata/city011/city011_073.txt"
 #define DATASET_FILE "city_mcepdata/city012/city012_"
-#define PICTURE_PATH "pic1.ppm"
+#define PICTURE_PATH "dp_picture/"
 #define DATASET_NUM_MAX 100
 #define DATASET_FRAME_MAX 200
 #define DATASET_DIMENSION_MAX 15
@@ -23,13 +23,13 @@ double input_data[DATASET_FRAME_MAX][DATASET_DIMENSION_MAX];
 int dataset_frame[DATASET_NUM_MAX];
 int input_frame;
 
-//経過時間測定関係
+// 経過時間測定関係
 clock_t time_start;
 clock_t time_end;
 
 int main(void)
 {
-    //処理開始
+    // 処理開始
     time_start = clock();
 
     unsigned char dumy[1000];
@@ -137,7 +137,9 @@ int main(void)
         }
 
         FILE *save_csv;
-        save_csv = fopen("save.csv", "w");
+        char save_file[999];
+        snprintf(save_file, sizeof(save_file), "%s%d.csv", PICTURE_PATH, i + 1);
+        save_csv = fopen(save_file, "w");
 
         for (int input_cnt = 0; input_cnt < input_frame; input_cnt++)
         {
@@ -150,6 +152,108 @@ int main(void)
 
         fclose(save_csv);
 
+        int y_cnt = input_frame - 1;
+        int x_cnt = dataset_frame[i] - 1;
+
+        int root[dataset_frame[i]][input_frame];
+
+        // 変数の初期化
+        for (int i_1 = 0; i_1 < dataset_frame[i]; i_1++)
+        {
+            for (int j = 0; j < input_frame; j++)
+            {
+                root[i_1][j] = 0;
+            }
+        }
+
+        while (1)
+        {
+
+            int tmp = 0;
+            double min_cost = __DBL_MAX__;
+
+            if (x_cnt <= 0 && y_cnt <= 0)
+            {
+                break;
+            }
+
+            if (x_cnt > 0)
+            {
+                if (dp[x_cnt - 1][y_cnt] <= min_cost)
+                {
+                    min_cost = dp[x_cnt - 1][y_cnt];
+                    tmp = 1;
+                }
+            }
+
+            if (y_cnt > 0)
+            {
+                if (dp[x_cnt][y_cnt - 1] <= min_cost)
+                {
+                    min_cost = dp[x_cnt][y_cnt - 1];
+                    tmp = 2;
+                }
+            }
+
+            if (x_cnt > 0 && y_cnt > 0)
+            {
+                if (dp[x_cnt - 1][y_cnt - 1] <= min_cost)
+                {
+                    min_cost = dp[x_cnt - 1][y_cnt - 1];
+                    tmp = 3;
+                }
+            }
+
+            if (tmp == 1)
+            {
+                x_cnt--;
+                root[x_cnt][y_cnt] = 1;
+            }
+            if (tmp == 2)
+            {
+                y_cnt--;
+                root[x_cnt][y_cnt] = 1;
+            }
+            if (tmp == 3)
+            {
+                x_cnt--;
+                y_cnt--;
+                root[x_cnt][y_cnt] = 1;
+            }
+        }
+
+        // 画像の出力
+        FILE *out_pic;
+        snprintf(save_file, sizeof(save_file), "%s%d.ppm", PICTURE_PATH, i + 1);
+        out_pic = fopen(save_file, "w");
+
+        fprintf(out_pic, "P1\n%d %d\n", input_frame, dataset_frame[min_asc]);
+
+        for (int i = 0; i < dataset_frame[min_asc]; i++)
+        {
+            for (int j = 0; j < input_frame; j++)
+            {
+                if (i == dataset_frame[min_asc] - 1 && j == input_frame - 1)
+                {
+                    fprintf(out_pic, "1 ");
+                }
+                else if (root[i][j] == 1)
+                {
+                    fprintf(out_pic, "1 ");
+                    // printf("1");
+                }
+                else
+                {
+                    fprintf(out_pic, "0 ");
+                    // printf("0");
+                }
+            }
+            fprintf(out_pic, "\n");
+            // printf("\n");
+        }
+
+        fclose(out_pic);
+
         if (min_data > dp[dataset_frame[i] - 1][input_frame - 1])
         {
             min_data = dp[dataset_frame[i] - 1][input_frame - 1];
@@ -158,149 +262,9 @@ int main(void)
         }
     }
 
-    double dp[dataset_frame[min_asc]][input_frame];
-
-    for (int input_cnt = 0; input_cnt < input_frame; input_cnt++)
-    {
-        for (int dataset_cnt = 0; dataset_cnt < dataset_frame[min_asc]; dataset_cnt++)
-        {
-            double min_cost = __DBL_MAX__;
-
-            if (input_cnt == 0 && dataset_cnt == 0)
-            {
-                min_cost = d_calc(min_data, input_cnt, dataset_cnt);
-            }
-
-            if (input_cnt >= 1)
-            {
-                double tmp = dp[dataset_cnt][input_cnt - 1] + d_calc(min_asc, input_cnt, dataset_cnt) * TATE_YOKO_COST;
-                if (min_cost >= tmp)
-                {
-                    min_cost = tmp;
-                }
-            }
-            if (dataset_cnt >= 1)
-            {
-                double tmp = dp[dataset_cnt - 1][input_cnt] + d_calc(min_asc, input_cnt, dataset_cnt) * TATE_YOKO_COST;
-                if (min_cost >= tmp)
-                {
-                    min_cost = tmp;
-                }
-            }
-            if (input_cnt >= 1 && dataset_cnt >= 1)
-            {
-                double tmp = dp[dataset_cnt - 1][input_cnt - 1] + d_calc(min_asc, input_cnt, dataset_cnt) * NANAME_COST;
-                if (min_cost >= tmp)
-                {
-                    min_cost = tmp;
-                }
-            }
-            dp[dataset_cnt][input_cnt] = min_cost;
-        }
-    }
-
-    int y_cnt = input_frame - 1;
-    int x_cnt = dataset_frame[min_asc] - 1;
-
-    int root[dataset_frame[min_asc]][input_frame];
-
-    // 変数の初期化
-    for (int i = 0; i < dataset_frame[min_asc]; i++)
-    {
-        for (int j = 0; j < input_frame; j++)
-        {
-            root[i][j] = 0;
-        }
-    }
-
-    while (1)
-    {
-
-        int tmp = 0;
-        double min_cost = __DBL_MAX__;
-
-        if (x_cnt <= 0 && y_cnt <= 0)
-        {
-            break;
-        }
-
-        if (x_cnt > 0)
-        {
-            if (dp[x_cnt - 1][y_cnt] <= min_cost)
-            {
-                min_cost = dp[x_cnt - 1][y_cnt];
-                tmp = 1;
-            }
-        }
-
-        if (y_cnt > 0)
-        {
-            if (dp[x_cnt][y_cnt - 1] <= min_cost)
-            {
-                min_cost = dp[x_cnt][y_cnt - 1];
-                tmp = 2;
-            }
-        }
-
-        if (x_cnt > 0 && y_cnt > 0)
-        {
-            if (dp[x_cnt - 1][y_cnt - 1] <= min_cost)
-            {
-                min_cost = dp[x_cnt - 1][y_cnt - 1];
-                tmp = 3;
-            }
-        }
-
-        if (tmp == 1)
-        {
-            x_cnt--;
-            root[x_cnt][y_cnt] = 1;
-        }
-        if (tmp == 2)
-        {
-            y_cnt--;
-            root[x_cnt][y_cnt] = 1;
-        }
-        if (tmp == 3)
-        {
-            x_cnt--;
-            y_cnt--;
-            root[x_cnt][y_cnt] = 1;
-        }
-    }
-    // 画像の出力
-    FILE *out_pic;
-    out_pic = fopen(PICTURE_PATH, "w");
-
-    fprintf(out_pic, "P1\n%d %d\n", input_frame, dataset_frame[min_asc]);
-
-    for (int i = 0; i < dataset_frame[min_asc]; i++)
-    {
-        for (int j = 0; j < input_frame; j++)
-        {
-            if(i == dataset_frame[min_asc] - 1 && j == input_frame - 1){
-                fprintf(out_pic, "1 ");
-            }
-            else if (root[i][j] == 1)
-            {
-                fprintf(out_pic, "1 ");
-                //printf("1");
-            }
-            else
-            {
-                fprintf(out_pic, "0 ");
-                //printf("0");
-            }
-            
-        }
-        fprintf(out_pic, "\n");
-        //printf("\n");
-    }
-
-    fclose(out_pic);
     fclose(input_fp);
 
-    //処理終了
+    // 処理終了
     time_end = clock();
     printf("処理時間:%f [s]\n", ((double)time_end - (double)time_start) / CLOCKS_PER_SEC);
 }

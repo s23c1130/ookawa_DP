@@ -6,15 +6,15 @@
 #include <math.h>
 #include <time.h>
 
-#define INPUT_FILE "city_mcepdata/city011/city011_"
-#define DATASET_FILE "city_mcepdata/city012/city012_"
+#define INPUT_FILE "city_mcepdata/city022/city022_"
+#define DATASET_FILE "city_mcepdata/city021/city021_"
 #define PICTURE_PATH "pic1.ppm"
 #define DATASET_NUM_MAX 100
 #define DATASET_FRAME_MAX 200
 #define DATASET_DIMENSION_MAX 15
 
 #define TATE_YOKO_COST 1
-#define NANAME_COST 2
+#define NANAME_COST 1.414213
 
 //経過時間測定関係
 clock_t time_start;
