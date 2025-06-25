@@ -227,17 +227,17 @@ int main(void)
         snprintf(save_file, sizeof(save_file), "%s%d.ppm", PICTURE_PATH, i + 1);
         out_pic = fopen(save_file, "w");
 
-        fprintf(out_pic, "P1\n%d %d\n", input_frame, dataset_frame[min_asc]);
+        fprintf(out_pic, "P1\n%d %d\n", input_frame, dataset_frame[i]);
 
-        for (int i = 0; i < dataset_frame[min_asc]; i++)
+        for (int i_1 = 0; i_1 < dataset_frame[i]; i_1++)
         {
             for (int j = 0; j < input_frame; j++)
             {
-                if (i == dataset_frame[min_asc] - 1 && j == input_frame - 1)
+                if (i_1 == dataset_frame[min_asc] - 1 && j == input_frame - 1)
                 {
                     fprintf(out_pic, "1 ");
                 }
-                else if (root[i][j] == 1)
+                else if (root[i_1][j] == 1)
                 {
                     fprintf(out_pic, "1 ");
                     // printf("1");
