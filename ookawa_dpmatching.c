@@ -7,8 +7,8 @@
 
 // #define INPUT_FILE "city_mcepdata/city011/city011_073.txt"
 // #define DATASET_FILE "city_mcepdata/city012/city012_"
-#define INPUT_FILE "city_mcepdata/city011/city011_099.txt"
-#define DATASET_FILE "city_mcepdata/city022/city022_"
+#define INPUT_FILE "city_mcepdata/city011/city011_073.txt"
+#define DATASET_FILE "city_mcepdata/city012/city012_"
 #define PICTURE_PATH "dp_output/"
 #define DATASET_NUM_MAX 100
 #define DATASET_FRAME_MAX 200
@@ -254,7 +254,7 @@ int main(void)
                 }
                 else
                 {
-                    int tmp = map(d_calc(i, i_1, j), 0, max_dp_num, 255, 0);
+                    int tmp = map(d_calc(i, j, i_1), 0, max_dp_num, 255, 0);
                     fprintf(out_pic, "%3d %3d %3d ", tmp,tmp,tmp);
                     // printf("0");
                 }
