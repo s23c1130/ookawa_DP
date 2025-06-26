@@ -119,15 +119,16 @@ int main(void)
                 for (int dataset_cnt = 0; dataset_cnt < dataset_frame[i]; dataset_cnt++)
                 {
                     double min_cost = __DBL_MAX__;
-
+                    double dist = d_calc(i, input_data_cnt, input_cnt, dataset_cnt);
+                    
                     if (input_cnt == 0 && dataset_cnt == 0)
                     {
-                        min_cost = d_calc(i, input_data_cnt, input_cnt, dataset_cnt);
+                        min_cost = dist;
                     }
 
                     if (input_cnt >= 1)
                     {
-                        double tmp = dp[dataset_cnt][input_cnt - 1] + d_calc(i, input_data_cnt, input_cnt, dataset_cnt) * TATE_YOKO_COST;
+                        double tmp = dp[dataset_cnt][input_cnt - 1] + dist * TATE_YOKO_COST;
                         if (min_cost >= tmp)
                         {
                             min_cost = tmp;
@@ -135,7 +136,7 @@ int main(void)
                     }
                     if (dataset_cnt >= 1)
                     {
-                        double tmp = dp[dataset_cnt - 1][input_cnt] + d_calc(i, input_data_cnt, input_cnt, dataset_cnt) * TATE_YOKO_COST;
+                        double tmp = dp[dataset_cnt - 1][input_cnt] + dist * TATE_YOKO_COST;
                         if (min_cost >= tmp)
                         {
                             min_cost = tmp;
@@ -143,7 +144,7 @@ int main(void)
                     }
                     if (input_cnt >= 1 && dataset_cnt >= 1)
                     {
-                        double tmp = dp[dataset_cnt - 1][input_cnt - 1] + d_calc(i, input_data_cnt, input_cnt, dataset_cnt) * NANAME_COST;
+                        double tmp = dp[dataset_cnt - 1][input_cnt - 1] + dist * NANAME_COST;
                         if (min_cost >= tmp)
                         {
                             min_cost = tmp;
