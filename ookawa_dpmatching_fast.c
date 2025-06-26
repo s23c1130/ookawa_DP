@@ -6,7 +6,7 @@
 #include <math.h>
 #include <time.h>
 
-#define INPUT_FILE "city_mcepdata/city022/city022_"
+#define INPUT_FILE "city_mcepdata/city011/city011_"
 #define DATASET_FILE "city_mcepdata/city021/city021_"
 #define PICTURE_PATH "pic1.ppm"
 #define DATASET_NUM_MAX 100
@@ -124,6 +124,7 @@ int main(void)
                 {
                     double min_cost = __DBL_MAX__;
                     double dist = d_calc(i, input_data_cnt, input_cnt, dataset_cnt);
+
                     if (input_cnt == 0 && dataset_cnt == 0)
                     {
                         min_cost = dist;
@@ -155,7 +156,7 @@ int main(void)
                     }
 
                     dp[dataset_cnt][input_cnt] = min_cost;
-
+                    ds_min /= (input_frame[input_data_cnt] + dataset_frame[i]);
                     if(ds_min > min_cost){
                         ds_min = min_cost;
                     }

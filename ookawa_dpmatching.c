@@ -7,8 +7,8 @@
 
 // #define INPUT_FILE "city_mcepdata/city011/city011_073.txt"
 // #define DATASET_FILE "city_mcepdata/city012/city012_"
-#define INPUT_FILE "city_mcepdata/city011/city011_073.txt"
-#define DATASET_FILE "city_mcepdata/city012/city012_"
+#define INPUT_FILE "city_mcepdata/city011/city011_099.txt"
+#define DATASET_FILE "city_mcepdata/city022/city022_"
 #define PICTURE_PATH "dp_output/"
 #define DATASET_NUM_MAX 100
 #define DATASET_FRAME_MAX 200
@@ -19,6 +19,7 @@
 
 // 局所距離を求める関数
 double d_calc(int dataset_num, int x, int y);
+double map(double input, double i1, double i2, double o1, double o2);
 
 double dataset[DATASET_NUM_MAX][DATASET_FRAME_MAX][DATASET_DIMENSION_MAX];
 double input_data[DATASET_FRAME_MAX][DATASET_DIMENSION_MAX];
@@ -98,6 +99,7 @@ int main(void)
     {
 
         double dp[dataset_frame[i]][input_frame];
+        double max_dp_num = __DBL_MIN__;
 
         for (int input_cnt = 0; input_cnt < input_frame; input_cnt++)
         {
@@ -137,6 +139,10 @@ int main(void)
                     }
                 }
                 dp[dataset_cnt][input_cnt] = min_cost;
+
+                if(max_dp_num < dist){
+                    max_dp_num = dist;
+                }
             }
         }
 
@@ -231,7 +237,7 @@ int main(void)
         snprintf(save_file, sizeof(save_file), "%s%d.ppm", PICTURE_PATH, i + 1);
         out_pic = fopen(save_file, "w");
 
-        fprintf(out_pic, "P1\n%d %d\n", input_frame, dataset_frame[i]);
+        fprintf(out_pic, "P3\n%d %d\n255\n", input_frame, dataset_frame[i]);
 
         for (int i_1 = 0; i_1 < dataset_frame[i]; i_1++)
         {
@@ -239,16 +245,17 @@ int main(void)
             {
                 if (i_1 == dataset_frame[i] - 1 && j == input_frame - 1)
                 {
-                    fprintf(out_pic, "1 ");
+                    fprintf(out_pic, "237 26 61 ");
                 }
                 else if (root[i_1][j] == 1)
                 {
-                    fprintf(out_pic, "1 ");
+                    fprintf(out_pic, "237 26 61 ");
                     // printf("1");
                 }
                 else
                 {
-                    fprintf(out_pic, "0 ");
+                    int tmp = map(d_calc(i, i_1, j), 0, max_dp_num, 255, 0);
+                    fprintf(out_pic, "%3d %3d %3d ", tmp,tmp,tmp);
                     // printf("0");
                 }
             }
@@ -285,4 +292,10 @@ double d_calc(int dataset_num, int x, int y)
         sum += pow(dataset[dataset_num][x][i] - input_data[y][i], 2);
     }
     return sqrt(sum);
+}
+
+double map(double input, double i1, double i2, double o1, double o2){
+    double i_x = (input - i1) / (i2 - i1);
+	double o_y = (o2 - o1) * i_x + o1;
+	return o_y;
 }

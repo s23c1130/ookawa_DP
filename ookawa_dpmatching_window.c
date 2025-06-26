@@ -136,7 +136,7 @@ int main(void)
                     }
 
                     double min_cost = __DBL_MAX__;
-                    double dist = dist;
+                    double dist = d_calc(i, input_data_cnt, input_cnt, dataset_cnt);
                     
                     if (input_cnt == 0 && dataset_cnt == 0)
                     {
