@@ -6,8 +6,8 @@
 #include <math.h>
 #include <time.h>
 
-#define INPUT_FILE "city_mcepdata/city022/city022_"
-#define DATASET_FILE "city_mcepdata/city021/city021_"
+#define INPUT_FILE "city_mcepdata/city011/city011_"
+#define DATASET_FILE "city_mcepdata/city012/city012_"
 #define PICTURE_PATH "pic1.ppm"
 #define DATASET_NUM_MAX 100
 #define DATASET_FRAME_MAX 200
@@ -153,9 +153,9 @@ int main(void)
                 }
             }
 
-            if (min_data > dp[dataset_frame[i] - 1][input_frame[input_data_cnt] - 1])
+            if (min_data > dp[dataset_frame[i] - 1][input_frame[input_data_cnt] - 1] / (input_frame[input_data_cnt] + dataset_frame[i]))
             {
-                min_data = dp[dataset_frame[i] - 1][input_frame[input_data_cnt] - 1];
+                min_data = dp[dataset_frame[i] - 1][input_frame[input_data_cnt] - 1] / (input_frame[input_data_cnt] + dataset_frame[i]);
                 printf("%d %lf\n", i + 1, min_data);
                 min_asc = i;
             }

@@ -9,7 +9,7 @@
 // #define DATASET_FILE "city_mcepdata/city012/city012_"
 #define INPUT_FILE "city_mcepdata/city011/city011_073.txt"
 #define DATASET_FILE "city_mcepdata/city012/city012_"
-#define PICTURE_PATH "dp_picture/"
+#define PICTURE_PATH "dp_output/"
 #define DATASET_NUM_MAX 100
 #define DATASET_FRAME_MAX 200
 #define DATASET_DIMENSION_MAX 15
@@ -256,12 +256,14 @@ int main(void)
 
         fclose(out_pic);
 
-        if (min_data > dp[dataset_frame[i] - 1][input_frame - 1])
-        {
-            min_data = dp[dataset_frame[i] - 1][input_frame - 1];
-            printf("%d %lf\n", i + 1, min_data);
-            min_asc = i;
-        }
+        if (min_data > dp[dataset_frame[i] - 1][input_frame - 1] / (input_frame + dataset_frame[i]))
+            {
+                min_data = dp[dataset_frame[i] - 1][input_frame - 1] / (input_frame + dataset_frame[i]);
+                printf("%d %lf\n", i + 1, min_data);
+                min_asc = i;
+            }
+
+        
     }
 
     fclose(input_fp);

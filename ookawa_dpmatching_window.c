@@ -170,9 +170,9 @@ int main(void)
                 }
             }
 
-            if (min_data > dp[dataset_frame[i] - 1][input_frame[input_data_cnt] - 1])
+            if (min_data > dp[dataset_frame[i] - 1][input_frame[input_data_cnt] - 1] / (input_frame[input_data_cnt] + dataset_frame[i]))
             {
-                min_data = dp[dataset_frame[i] - 1][input_frame[input_data_cnt] - 1];
+                min_data = dp[dataset_frame[i] - 1][input_frame[input_data_cnt] - 1] / (input_frame[input_data_cnt] + dataset_frame[i]);
                 printf("%d %lf\n", i + 1, min_data);
                 min_asc = i;
             }
